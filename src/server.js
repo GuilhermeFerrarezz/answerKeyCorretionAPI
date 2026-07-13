@@ -3,11 +3,19 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import sequelize from './config/database.js';
 import './models/index.js';
+import authRoutes from './routes/authRoutes.js'
+import privateRoutes from './routes/privateRoutes.js'
 dotenv.config()
 const app = express();
 app.use(cors())
 app.use(express.json())
 app.get("/", (_, res) => res.status(200).json({ message: "API enabled" }));
+app.use("/correctEnem/auth", authRoutes);
+app.use("/correctEnem", privateRoutes);
+
+
+
+
 
 (async () => {
     try {
