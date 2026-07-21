@@ -84,7 +84,7 @@ export default {
             const token = jwt.sign(
                 { user: JSON.stringify(payload) },
                 JWT_SECRET,
-                { expiresIn: '10m', }
+                { expiresIn: '15m', }
             )
             console.log('login')
             const refreshToken = await createRefreshToken(user)
@@ -123,7 +123,7 @@ export default {
                 email: user.email
             }
             const newAccessToken = jwt.sign({ user: JSON.stringify(payload) }, JWT_SECRET, {
-                expiresIn: "10m"
+                expiresIn: "15m"
             })
 
             return res.status(200).json({
