@@ -1,7 +1,8 @@
 import sequelize from "../config/database.js";
 import User from './User.js';
-import Result from "./Result.js";
 import RefreshToken from "./RefreshToken.js";
+import Resposta from "./Resposta.js";
+import Prova from "./Prova.js";
 
 User.hasOne(RefreshToken, {
     foreignKey: 'userId',
@@ -15,17 +16,28 @@ RefreshToken.belongsTo(User,
 
 
 
-User.hasMany(Result, {
+User.hasMany(Prova, {
+    onDelete: "CASCADE",
+    foreignKey: 'userId',
     onDelete: "CASCADE"
 })
-Result.belongsTo(User)
+Prova.belongsTo(User, 
+    {
+    foreignKey: 'userId'
+}
+)
+
+Prova.hasOne(Resposta, {foreignKey: 'provaId', onDelete: "CASCADE", as: 'resposta'})
+Resposta.belongsTo(Prova, {foreignKey: 'provaId', as: 'prova'})
+
 
 
 
 const db = {
     sequelize, 
     User, 
-    Result,
+    Prova, 
+    Resposta,
     RefreshToken
 }
 export default db

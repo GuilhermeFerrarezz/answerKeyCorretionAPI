@@ -18,7 +18,7 @@ export async function correctTest(req, res) {
 
         console.log("Enviando arquivos para o Python");
 
-        const pythonResponse = await axios.post('http://localhost:8000/corrigir-prova', form, {
+        const pythonResponse = await axios.post('http://192.168.100.216:8000/corrigir-prova', form, {
             headers: {
                 ...form.getHeaders()
             },
