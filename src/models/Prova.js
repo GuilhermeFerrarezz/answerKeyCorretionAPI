@@ -18,6 +18,9 @@ const Prova = sequelize.define("Prova", {
     dia: {
         type: DataTypes.INTEGER
     },
+    erros: {
+        type: DataTypes.INTEGER
+    }
 
 
 });

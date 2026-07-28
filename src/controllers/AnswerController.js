@@ -6,15 +6,20 @@ export async function correctTest(req, res) {
     try {
         const image = req.files['image'] ? req.files['image'][0] : null
         const pdf = req.files['pdf'] ? req.files['pdf'][0] : null;
+        let idioma = req.body.idioma
         const day = req.body.day
         if (!image || !pdf || !day) {
-            return res.status(400).json({ erro: "Faltam arquivos ou o day da prova." });
+            return res.status(400).json({ erro: "Faltam arquivos ou o dia da prova." });
+        }
+        if (!idioma) {
+            idioma = 'ingles'
         }
 
         const form = new FormData();
         form.append('image', image.buffer, { filename: image.originalname })
         form.append('pdf', pdf.buffer, { filename: pdf.originalname })
         form.append('day', day)
+        form.append('idioma', idioma)
 
         console.log("Enviando arquivos para o Python");
 

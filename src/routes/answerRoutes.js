@@ -8,6 +8,11 @@ router.post("/save", SaveAnswerController.saveAnswer)
 
 router.get("/provas", SaveAnswerController.findAll)
 
+router.get("/provas/:id", SaveAnswerController.findOne)
+
+router.put("/:id", SaveAnswerController.update)
+
+router.delete("/:id", SaveAnswerController.remove)
 
 
 
