@@ -31,17 +31,17 @@ export async function correctTest(req, res) {
         });
         return res.status(200).json(pythonResponse.data);
 
-    
+
 
 
     } catch (error) {
         console.error("Erro ao comunicar com a API Python:", error.message);
-        
+
         if (error.response) {
             return res.status(error.response.status).json(error.response.data);
         }
-        
+
         return res.status(500).json({ erro: "Erro interno no servidor de processamento." });
-        
+
     }
 }

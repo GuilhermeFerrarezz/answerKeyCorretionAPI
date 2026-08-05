@@ -5,7 +5,7 @@ import sequelize from "../config/database.js"
 const Resposta = sequelize.define("Resposta", {
     id: {
         type: DataTypes.INTEGER,
-        autoIncrement:true,
+        autoIncrement: true,
         primaryKey: true,
     },
     respostas_usuario: {
@@ -15,8 +15,8 @@ const Resposta = sequelize.define("Resposta", {
     respostas_gabarito: {
         type: DataTypes.JSON,
         allowNull: false
-    } 
+    }
 
-    
+
 });
 export default Resposta;

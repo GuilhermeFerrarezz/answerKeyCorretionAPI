@@ -16,7 +16,7 @@ export function tokenValidated(req, res, next) {
         return next();
 
     } catch (error) {
-        console.log(error)
+        //console.log(error)
         return res.status(401).json({message: "Invalid Token"})
     }
 }

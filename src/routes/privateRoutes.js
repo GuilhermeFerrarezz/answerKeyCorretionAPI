@@ -8,13 +8,13 @@ const files = uploadRAM.fields([
     { name: 'image', maxCount: 1 },
     { name: 'pdf', maxCount: 1 }
 ]);
-router.use(tokenValidated); 
+router.use(tokenValidated);
 
 router.get("/private", (req, res) => {
     const currentUser = JSON.parse(req.headers.user || {});
     return res.status(200).json({
         message: "Rota acessada com sucesso",
-        data: {userLogged: currentUser}
+        data: { userLogged: currentUser }
     })
 })
 

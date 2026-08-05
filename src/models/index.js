@@ -11,7 +11,7 @@ User.hasOne(RefreshToken, {
 
 RefreshToken.belongsTo(User,
     {
-        foreignKey: "userId"      
+        foreignKey: "userId"
     });
 
 
@@ -21,22 +21,22 @@ User.hasMany(Prova, {
     foreignKey: 'userId',
     onDelete: "CASCADE"
 })
-Prova.belongsTo(User, 
+Prova.belongsTo(User,
     {
-    foreignKey: 'userId'
-}
+        foreignKey: 'userId'
+    }
 )
 
-Prova.hasOne(Resposta, {foreignKey: 'provaId', onDelete: "CASCADE", as: 'resposta'})
-Resposta.belongsTo(Prova, {foreignKey: 'provaId', as: 'prova'})
+Prova.hasOne(Resposta, { foreignKey: 'provaId', onDelete: "CASCADE", as: 'resposta' })
+Resposta.belongsTo(Prova, { foreignKey: 'provaId', as: 'prova' })
 
 
 
 
 const db = {
-    sequelize, 
-    User, 
-    Prova, 
+    sequelize,
+    User,
+    Prova,
     Resposta,
     RefreshToken
 }

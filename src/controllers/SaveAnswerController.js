@@ -9,8 +9,8 @@ export default {
         const { gabarito, respostas, ano, mes, dia, erros } = req.body
         const currentUser = JSON.parse(req.headers.user || {});
         const userId = currentUser.id
-        console.log(currentUser)
-       
+        //console.log(currentUser)
+
         if (!gabarito || !respostas || !mes || !dia || !ano || !userId || erros == undefined) {
             return res.status(400).json({ message: "Incomplete data" })
         }
@@ -29,41 +29,41 @@ export default {
                 })
             }
 
-                const newProva = await Prova.create(
-                    {
-                        userId: userId,
-                        ano: ano,
-                        mes: mes,
-                        dia: dia,
-                        erros: erros,
-                        resposta: {
-                            respostas_usuario: respostas,
-                            respostas_gabarito: gabarito
-                        }
-                    },
-                    {
-                        include: [{
+            const newProva = await Prova.create(
+                {
+                    userId: userId,
+                    ano: ano,
+                    mes: mes,
+                    dia: dia,
+                    erros: erros,
+                    resposta: {
+                        respostas_usuario: respostas,
+                        respostas_gabarito: gabarito
+                    }
+                },
+                {
+                    include: [{
                         model: Resposta,
                         as: 'resposta'
-                        }]
-                    }
-                    
-                )
-                return res.status(201).json(newProva)          
+                    }]
+                }
+
+            )
+            return res.status(201).json(newProva)
         } catch (error) {
             console.error(error);
             return res.status(500).json({ erro: "Internal server error." });
         }
-        
+
     },
-    
+
     async findAll(req, res) {
         try {
             const year = req.query.ano
             const day = req.query.dia
             const currentUser = JSON.parse(req.headers.user || "{}");
             const userId = currentUser.id || req.userId
-            console.log(userId)
+            //console.log(userId)
             const whereCondition = {
                 userId: userId
             };
@@ -82,7 +82,7 @@ export default {
                     as: 'resposta'
                 }]
             }
-                    )
+            )
             return res.status(200).json(provas)
         } catch (error) {
             console.error(error);
@@ -100,7 +100,7 @@ export default {
                 userId: userId,
                 id: provaId
             };
-           
+
             const prova = await Prova.findOne({
                 where: whereCondition,
                 include: [{
@@ -122,15 +122,15 @@ export default {
     async update(req, res) {
         const provaId = req.params.id
         const { gabarito, respostas, ano, mes, dia, erros } = req.body
-        console.log(req.body)
+        //console.log(req.body)
         const currentUser = JSON.parse(req.headers.user || "{}");
         const userId = currentUser.id || req.userId;
-        console.log(currentUser)
-       
-        if (!gabarito || !respostas || !mes || !dia || !ano || !provaId || erros == undefined ) {
+        //console.log(currentUser)
+
+        if (!gabarito || !respostas || !mes || !dia || !ano || !provaId || erros == undefined) {
             return res.status(400).json({ message: "Incomplete data" })
         }
-        
+
         try {
             const provaExists = await Prova.findOne({
                 where: {
@@ -144,8 +144,8 @@ export default {
                 })
             }
             await Prova.update(
-            { ano: ano, mes: mes, dia: dia, erros: erros },
-            { where: { id: provaId, userId: userId } }
+                { ano: ano, mes: mes, dia: dia, erros: erros },
+                { where: { id: provaId, userId: userId } }
             );
             await Resposta.update(
                 {
@@ -162,12 +162,12 @@ export default {
             })
 
 
-                return res.status(200).json(provaAtualizada);
+            return res.status(200).json(provaAtualizada);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ erro: "Internal server error." });
         }
-        
+
     },
 
 
@@ -180,7 +180,7 @@ export default {
                 userId: userId,
                 id: provaId
             };
-           
+
             const prova = await Prova.findOne({
                 where: whereCondition,
             }
@@ -203,7 +203,7 @@ export default {
 
 
     }
-    }
+}
 
 
 
@@ -213,7 +213,7 @@ export default {
 
 
 
-    
+
 
 
 

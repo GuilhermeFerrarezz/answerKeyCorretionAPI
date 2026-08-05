@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { tokenValidated } from "../middlewares/auth.js";
-import SaveAnswerController  from "../controllers/SaveAnswerController.js";
+import SaveAnswerController from "../controllers/SaveAnswerController.js";
 const router = Router();
-router.use(tokenValidated); 
+router.use(tokenValidated);
 
 router.post("/save", SaveAnswerController.saveAnswer)
 

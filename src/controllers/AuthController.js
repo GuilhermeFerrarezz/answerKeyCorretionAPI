@@ -5,7 +5,7 @@ import qs from 'query-string';
 import db from '../models/index.js'
 import { JWT_SECRET } from '../middlewares/auth.js';
 import { v4 as uuidv4 } from 'uuid';
-import { Op } from 'sequelize'; 
+import { Op } from 'sequelize';
 const User = db.User
 const RefreshToken = db.RefreshToken
 const createRefreshToken = async (user) => {
@@ -30,7 +30,7 @@ const createRefreshToken = async (user) => {
 export default {
     async register(req, res) {
         try {
-    
+
             const { name, email, password } = req.body;
             if (!name || !email || !password) {
                 return res.status(400).json({ message: "Incomplete data" })
@@ -55,57 +55,57 @@ export default {
             return res.status(500).json({
                 message: "Error while registering user", error
             })
-    
+
         }
     },
 
     async login(req, res) {
         try {
-            console.log(req.body)
+            //console.log(req.body)
             const { email, password } = req.body
             if (!email || !password) {
-                return res.status(400).json({message: "Enter email and password"})
+                return res.status(400).json({ message: "Enter email and password" })
             }
             const user = await User.findOne({ where: { email } });
             if (!user || !user.password) {
-                return res.status(401).json({ message: "Invalid credentials"})
+                return res.status(401).json({ message: "Invalid credentials" })
             }
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
-                return res.status(401).json({message: "Invalid credentials"})
+                return res.status(401).json({ message: "Invalid credentials" })
             }
             const payload = {
                 id: user.id,
                 name: user.name,
                 email: user.email,
             };
-    
-            
+
+
             const token = jwt.sign(
                 { user: JSON.stringify(payload) },
                 JWT_SECRET,
                 { expiresIn: '15m', }
             )
-            console.log('login')
+            //console.log('login')
             await RefreshToken.destroy({
                 where: {
                     userId: user.id,
                     expiresAt: {
-                        [Op.lt]: new Date().getTime() 
+                        [Op.lt]: new Date().getTime()
                     }
                 }
             })
-    
-            
+
+
 
 
             const refreshToken = await createRefreshToken(user)
-            console.log('Token: ', refreshToken)
-            return res.status(200).json({data: {user: payload, token, refreshToken}})
+            //console.log('Token: ', refreshToken)
+            return res.status(200).json({ data: { user: payload, token, refreshToken } })
 
         } catch (error) {
-            return res.status(500).json({message: "Login error", error})
-        }  
+            return res.status(500).json({ message: "Login error", error })
+        }
     },
     async refreshToken(req, res) {
         const { requestToken } = req.body;
@@ -119,16 +119,16 @@ export default {
             }
             if (RefreshToken.verifyExpiration(refreshToken)) {
                 RefreshToken.destroy({ where: { id: refreshToken.id } })
-                
+
                 return res.status(403).json({
                     message: "Refresh Token has expired. Please, log in again"
                 })
             }
-            
+
             const user = await User.findByPk(refreshToken.userId)
             await RefreshToken.destroy({ where: { id: refreshToken.id } });
             const newRefreshToken = await createRefreshToken(user);
-            
+
             const payload = {
                 id: user.id,
                 name: user.name,
@@ -150,11 +150,11 @@ export default {
     },
 
 
-        async logout(req, res) {
+    async logout(req, res) {
         try {
-            console.log('logout')
+            //console.log('logout')
             const { requestToken } = req.body;
-            console.log(requestToken)
+            //console.log(requestToken)
             if (!requestToken) {
                 return res.status(400).json({ message: "Refresh Token is required to logout" })
             }
@@ -167,6 +167,6 @@ export default {
 
     }
 
-    }
+}
 
 
